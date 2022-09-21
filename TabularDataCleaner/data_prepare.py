@@ -23,8 +23,8 @@ class dataprepare():
         self.ops = {}
 
     def drop_high_nulls(self, df, nulls = 0.8):
-        drop_col = [i for i in df.columns if df[i].isnull().mean() > nulls]
-        print(f'High nulls columns {drop_col} with length {len(drop_col)}')
+        drop_col = [i for i in df.columns if df[i].isnull().mean() >= nulls]
+        print(f'High nulls columns with nulls percent greater than equals to {nulls} % in columns {drop_col} with length {len(drop_col)}')
         self.ops['drop_high_nulls'] = drop_col
         return drop_col
 
