@@ -110,12 +110,12 @@ class dataprepare():
         
         dropcols_names = dataprepare.calcDrop(res)
         #df = df.drop(dropcols_names, axis = 1)
-        print(f'Duplicate columns with same data {dropcols_names} with length {len(dropcols_names)}')
+        print(f'Columns with high correlation {dropcols_names} with length {len(dropcols_names)}')
         self.ops['drop_high_corr'] = dropcols_names
         return dropcols_names
 
     def drop_low_cardinality(self, df, cardinality_limit = 1):
         drop_crdnty_col = df.columns[df.nunique() <= cardinality_limit].to_list()
         self.ops['drop_low_cardinality'] = drop_crdnty_col
-        print(f'Duplicate columns with same data {drop_crdnty_col} with length {len(drop_crdnty_col)}')
+        print(f'Columns with cardinality equals to {cardinality_limit} are {drop_crdnty_col} with length {len(drop_crdnty_col)}')
         return drop_crdnty_col
