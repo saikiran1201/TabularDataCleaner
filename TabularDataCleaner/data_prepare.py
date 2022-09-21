@@ -37,7 +37,7 @@ class dataprepare():
         pipe = Pipeline([('selector', VarianceThreshold(var_limit))])
         _ = pipe.fit_transform(df_num)
         drop_col = list(set(df_num.columns) - set(pipe.get_feature_names_out()))
-        print(f'Low variance columns {drop_col} with length {len(drop_col)}')
+        print(f'Low variance columns that have less varaiance than {var_limit} with columns {drop_col} with length {len(drop_col)}')
         self.ops['variance_thsld'] = list(set(df_num.columns) - set(pipe.get_feature_names_out()))
         return list(set(df_num.columns) - set(pipe.get_feature_names_out()))
 
