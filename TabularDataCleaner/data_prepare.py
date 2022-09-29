@@ -1,9 +1,9 @@
-
 from itertools import chain
 import numpy as np
 import pandas as pd
 from sklearn.feature_selection import VarianceThreshold
 from sklearn.pipeline import Pipeline
+import shap
 
 
 class dataprepare():
@@ -20,7 +20,7 @@ class dataprepare():
         #self.cat_columns = df.columns[ (df.nunique(dropna=False) < len(df) // 100) & (df.nunique(dropna=False) > 2) ]
         self.num_columns = df.select_dtypes(exclude=['category', object]).columns.to_list()
         # Dictionary to hold removal operations
-        self.ops = {}
+        self.FI = {}
 
     def drop_high_nulls(self, df, nulls = 0.8):
         drop_col = [i for i in df.columns if df[i].isnull().mean() >= nulls]
@@ -119,3 +119,18 @@ class dataprepare():
         self.ops['drop_low_cardinality'] = drop_crdnty_col
         print(f'Columns with cardinality equals to {cardinality_limit} are {drop_crdnty_col} with length {len(drop_crdnty_col)}')
         return drop_crdnty_col
+
+    def FI_with_shap(self, model, X_test):
+        explainer = shap.Explainer(model)
+        shap_values = explainer(X_test)
+        feature_importance = shap_values.abs.mean(0).values
+        importance_df = pd.DataFrame({'features': X_test.columns,
+                                        'importance': feature_importance})
+        importance_df.sort_values(by='importance', ascending=False, inplace=True)
+        shap.summary_plot(shap_values, X_test, plot_type='bar')
+        # Normalize the feature importances to add up to one
+        importance_df['normalized_importance'] = importance_df['importance'] / importance_df['importance'].sum()
+        importance_df['cumulative_importance'] = np.cumsum(importance_df['normalized_importance'])
+        self.FI = dict(zip(importance_df['features'], importance_df['cumulative_importance']))
+        drop = importance_df[importance_df['cumulative_importance'] > 0.99]['features'].to_list()
+        return importance_df, drop
