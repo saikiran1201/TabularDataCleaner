@@ -128,7 +128,7 @@ class dataprepare():
         explainer = shap.TreeExplainer(model)
         shap_values = explainer.shap_values(X_test)
         vals = np.abs(shap_values).mean(0)
-        importance_df = pd.DataFrame(list(zip(X_test.columns, vals)), columns=['features','importance'])
+        importance_df = pd.DataFrame(list(zip(list(X_test.columns), vals)), columns=['features','importance'])
         importance_df.sort_values(by=['importance'], ascending=False,inplace=True)
         shap.summary_plot(shap_values, X_test, plot_type='bar')
             # Normalize the feature importances to add up to one
