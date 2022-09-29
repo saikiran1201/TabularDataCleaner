@@ -123,8 +123,10 @@ class dataprepare():
         return drop_crdnty_col
 
     def FI_with_shap(self, model, X_test):
-        explainer = shap.Explainer(model)
-        shap_values = explainer(X_test)
+        
+        # Accepts only tree based models
+        explainer = shap.TreeExplainer(model)
+        shap_values = explainer.shap_values(X_test)
         feature_importance = shap_values.abs.mean(0).values
         importance_df = pd.DataFrame({'features': X_test.columns,
                                         'importance': feature_importance})
