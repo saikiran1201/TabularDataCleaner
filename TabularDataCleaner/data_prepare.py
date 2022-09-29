@@ -127,7 +127,7 @@ class dataprepare():
         # Accepts only tree based models
         explainer = shap.TreeExplainer(model)
         shap_values = explainer.shap_values(X_test)
-        vals= np.abs(shap_values).mean(0)
+        feature_importance = np.abs(shap_values).mean(0)
         importance_df = pd.DataFrame({'features': X_test.columns,
                                         'importance': feature_importance})
         importance_df.sort_values(by='importance', ascending=False, inplace=True)
