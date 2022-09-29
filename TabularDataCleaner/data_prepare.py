@@ -21,6 +21,8 @@ class dataprepare():
         self.num_columns = df.select_dtypes(exclude=['category', object]).columns.to_list()
         # Dictionary to hold removal operations
         self.FI = {}
+        self.ops = {}
+        
 
     def drop_high_nulls(self, df, nulls = 0.8):
         drop_col = [i for i in df.columns if df[i].isnull().mean() >= nulls]
