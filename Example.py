@@ -1,8 +1,7 @@
-Example for Data preprocessing (cleaning):
+# Example for Data preprocessing (cleaning):
+# https://www.kaggle.com/code/pasuvulasaikiran/netflix-appetency-data-cleaning
 
-https://www.kaggle.com/code/pasuvulasaikiran/netflix-appetency-data-cleaning
-
-Example for Feature selction:
+# Example for Feature selction:
 
 import numpy as np
 import pandas as pd
