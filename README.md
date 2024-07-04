@@ -9,6 +9,5 @@ Automating data preprocessing (cleaning) and feature selction tasks
   5. Drop columns with high correlation (Credit to Brian Pietracatella) Original creator of this function
      
 **B. Feature selction tasks**
-  1. The FeatureSelector class implements feature selection using various methods including 
-  2. Fisher Score (ANOVA), Mutual Information, Chi-Square, and Information Value. 
-  3. It ranks features based on these methods and aggregates the ranks to provide an overall ranking of the features.
+  1. The FeatureSelector class implements feature selection using various methods like Fisher Score (ANOVA), Mutual Information, Chi-Square, and Information Value. 
+  2. It ranks features based on these methods and aggregates the ranks to provide an overall ranking of the features.
