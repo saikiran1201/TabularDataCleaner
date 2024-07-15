@@ -138,18 +138,3 @@ class dataprepare():
         self.drop = list(set(chain(*self.drop)))
         print(f'Total dropped columns {len(self.drop)} out of original columns {len(self.df.columns)}')
         return self.drop
-
-    def FI_with_shap(self, model, X_test):
-        
-        # Accepts only tree based models
-        explainer = shap.TreeExplainer(model)
-        shap_values = explainer.shap_values(X_test)
-        vals = np.abs(shap_values).mean(0)
-        importance_df = pd.DataFrame(list(zip(list(X_test.columns), sum(vals))), columns=['features','importance'])
-        importance_df.sort_values(by=['importance'], ascending=False,inplace=True)
-        shap.summary_plot(shap_values, X_test, plot_type='bar')
-            # Normalize the feature importances to add up to one
-        importance_df['normalized_importance'] = importance_df['importance'] / importance_df['importance'].sum()
-        importance_df['cumulative_importance'] = np.cumsum(importance_df['normalized_importance'])
-        drop = importance_df[importance_df['cumulative_importance'] > 0.99]['features'].to_list()
-        return importance_df, drop
